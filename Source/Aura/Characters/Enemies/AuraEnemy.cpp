@@ -10,12 +10,10 @@ void AAuraEnemy::HighlightActor()
 	GetMesh()->SetRenderCustomDepth(true);
 	WeaponMesh->SetRenderCustomDepth(true);
 }
-
 void AAuraEnemy::UnHighlightActor()
 {
 	bHighlight = false;
 	UE_LOG(LogTemp, Warning, TEXT("UnHighlight!"));
 	GetMesh()->SetRenderCustomDepth(false);
 	WeaponMesh->SetRenderCustomDepth(false);
-
 }
