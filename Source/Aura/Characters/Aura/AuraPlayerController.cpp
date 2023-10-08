@@ -4,6 +4,8 @@
 #include "Aura/Characters/Aura/AuraPlayerController.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Aura/Interfaces/EnemyInterface.h"
+#include "Aura/Characters/Enemies/AuraEnemy.h"
 
 AAuraPlayerController::AAuraPlayerController()
 {
@@ -35,6 +37,12 @@ void AAuraPlayerController::SetupInputComponent()
 	EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AAuraPlayerController::Move);
 }
 
+void AAuraPlayerController::PlayerTick(float DeltaTime)
+{
+	Super::PlayerTick(DeltaTime);
+	CursorTrace();
+}
+
 void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
 {
 	const FVector2D InputAxisVector = InputActionValue.Get<FVector2D>();
@@ -49,4 +57,84 @@ void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
 		ControlledPawn->AddMovementInput(ForwardDirection, InputAxisVector.Y);
 		ControlledPawn->AddMovementInput(RightDirection, InputAxisVector.X);
 	}
+}
+
+void AAuraPlayerController::CursorTrace()
+{
+	FHitResult CursorHit;
+	GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
+	if(!CursorHit.bBlockingHit)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("No BlockingHit."));
+		return;
+	};
+	
+//
+	bool bHit = GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
+
+	if (bHit)
+	{
+		// Access the actor that was hit and log its name
+		AActor* HitActor = CursorHit.GetActor();
+		if (HitActor)
+		{
+			FString ActorName = HitActor->GetName();
+			UE_LOG(LogTemp, Warning, TEXT("Actor under cursor: %s"), *ActorName);
+		}
+	}
+	else
+	{
+		// No actor was hit
+		UE_LOG(LogTemp, Warning, TEXT("No actor under cursor."));
+	}
+
+//
+	
+	LastActor = ThisActor;
+	ThisActor = Cast<AAuraEnemy>(CursorHit.GetActor());
+	if(CursorHit.GetActor())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("GetActor."));
+	}
+	if(ThisActor)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Get ThisActor."));
+
+	}
+	
+	if(LastActor == nullptr)
+	{
+		if(ThisActor != nullptr)
+		{
+			ThisActor->HighlightActor();
+		}
+		else
+		{
+			//do nothing
+
+		}
+		
+	}
+	else
+	{
+		if(ThisActor == nullptr)
+		{
+			LastActor->UnHighlightActor();
+		}
+			else
+			{
+				if(LastActor != ThisActor)
+				{
+					LastActor->UnHighlightActor();
+					ThisActor->HighlightActor();
+				}	else
+                 			{
+                 				//do nothing
+                 			}
+				
+			}
+		
+		}
+
+	
 }

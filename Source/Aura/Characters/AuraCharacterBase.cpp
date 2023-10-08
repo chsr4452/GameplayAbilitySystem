@@ -11,6 +11,7 @@ AAuraCharacterBase::AAuraCharacterBase()
 	WeaponMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Weapon"));
 	WeaponMesh->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
 	WeaponMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	GetMesh()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
 }
 
 // Called when the game starts or when spawned
