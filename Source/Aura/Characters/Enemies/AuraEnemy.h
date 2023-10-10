@@ -22,4 +22,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bHighlight = false;
+protected:
+	virtual void BeginPlay() override;
 };
