@@ -66,44 +66,9 @@ void AAuraPlayerController::CursorTrace()
 {
 	FHitResult CursorHit;
 	GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
-	if(!CursorHit.bBlockingHit)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("No BlockingHit."));
-		return;
-	};
-	
-//
-	bool bHit = GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
-
-	if (bHit)
-	{
-		// Access the actor that was hit and log its name
-		AActor* HitActor = CursorHit.GetActor();
-		if (HitActor)
-		{
-			FString ActorName = HitActor->GetName();
-			UE_LOG(LogTemp, Warning, TEXT("Actor under cursor: %s"), *ActorName);
-		}
-	}
-	else
-	{
-		// No actor was hit
-		UE_LOG(LogTemp, Warning, TEXT("No actor under cursor."));
-	}
-
-//
 	
 	LastActor = ThisActor;
 	ThisActor = Cast<AAuraEnemy>(CursorHit.GetActor());
-	if(CursorHit.GetActor())
-	{
-		UE_LOG(LogTemp, Warning, TEXT("GetActor."));
-	}
-	if(ThisActor)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Get ThisActor."));
-
-	}
 	
 	if(LastActor == nullptr)
 	{

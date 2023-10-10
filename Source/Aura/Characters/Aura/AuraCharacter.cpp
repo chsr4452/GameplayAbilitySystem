@@ -4,6 +4,7 @@
 #include "AuraCharacter.h"
 
 #include "AbilitySystemComponent.h"
+#include "Aura/AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -28,7 +29,7 @@ AAuraCharacter::AAuraCharacter()
 	SpringArmComponent->SetupAttachment(GetRootComponent());
 	CameraComponent->SetupAttachment(SpringArmComponent);
 
-	SpringArmComponent->TargetArmLength = 1200;
+	SpringArmComponent->TargetArmLength = 800;
 	SpringArmComponent->bInheritPitch = false;
 	SpringArmComponent->bInheritYaw= false;
 	SpringArmComponent->bInheritRoll= false;
@@ -54,12 +55,20 @@ void AAuraCharacter::OnRep_PlayerState()
 	InitAbilityActorInfo();
 }
 
+
 void AAuraCharacter::InitAbilityActorInfo()
 {	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
  	check(AuraPlayerState);
- 	
- 	AbilitySystemComponent = AuraPlayerState->GetAbilitySystemComponent();
- 	 AttributeSet = AuraPlayerState->GetAttributeSet();
-     AbilitySystemComponent->InitAbilityActorInfo(AuraPlayerState, this);
+	if(AuraPlayerState == nullptr)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Nullptr"));
+	}
+ 	// AbilitySystemComponent = AuraPlayerState->GetAbilitySystemComponent();
+ 	//  AttributeSet = AuraPlayerState->GetAttributeSet();
+  //    AbilitySystemComponent->InitAbilityActorInfo(AuraPlayerState, this);
+
+	AuraPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(AuraPlayerState, this);
+	AbilitySystemComponent = AuraPlayerState->GetAbilitySystemComponent();
+	AttributeSet = AuraPlayerState->GetAttributeSet();
 }
 
