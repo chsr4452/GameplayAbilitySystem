@@ -48,6 +48,8 @@ void AAuraPlayerController::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
 	CursorTrace();
+
+	
 }
 
 void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
