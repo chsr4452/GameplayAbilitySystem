@@ -15,17 +15,18 @@ UCLASS()
 class AURA_API AAuraCharacter : public AAuraCharacterBase
 {
 	GENERATED_BODY()
+	
 public:
 	AAuraCharacter();
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void OnRep_PlayerState() override;
 	void InitAbilityActorInfo();
+	
 private:
+	
 	UPROPERTY(VisibleAnywhere);
 	TObjectPtr<USpringArmComponent> SpringArmComponent;
+	
 	UPROPERTY(VisibleAnywhere);
 	TObjectPtr<UCameraComponent> CameraComponent;
-
-	
-
 };
