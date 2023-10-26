@@ -20,7 +20,7 @@ public:
 	AAuraCharacter();
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void OnRep_PlayerState() override;
-	void InitAbilityActorInfo();
+	
 	
 private:
 	
@@ -29,4 +29,6 @@ private:
 	
 	UPROPERTY(VisibleAnywhere);
 	TObjectPtr<UCameraComponent> CameraComponent;
+
+	virtual void InitAbilityActorInfo() override;
 };
